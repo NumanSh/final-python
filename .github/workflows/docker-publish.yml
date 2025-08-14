@@ -25,4 +25,5 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/final-python-app:latest
+          # Use direct DockerHub repo name to avoid empty secret issues
+          tags: numansh/final-python-app:latest
