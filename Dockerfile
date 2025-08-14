@@ -1,18 +1,20 @@
-# Use older Python image to avoid compatibility issues
+# Use official Python base image
 FROM python:3.8-slim
 
-# Set the working directory in the container
+# Set working directory inside the container
 WORKDIR /app
 
-# Copy Pipfile and install dependencies
-COPY Pipfile Pipfile.lock ./
-RUN pip install pipenv && pipenv install --system
+# Copy dependencies file first (for caching layers)
+COPY requirements.txt .
 
-# Copy the rest of the app
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the rest of the application code
 COPY . .
 
-# Expose Flask's default port
+# Expose the port the app runs on (change if needed)
 EXPOSE 5000
 
-# Run the Flask app
+# Run the app
 CMD ["python", "app.py"]
